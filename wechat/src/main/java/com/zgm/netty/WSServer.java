@@ -42,4 +42,9 @@ public class WSServer {
         return SingletonWSServer.instance;
     }
 
+    public static void main(String[] args) {
+        WSServer server = WSServer.getInstance();
+        server.start();
+
+    }
 }

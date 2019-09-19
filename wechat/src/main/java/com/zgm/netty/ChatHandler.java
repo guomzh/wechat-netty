@@ -6,7 +6,9 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
-import java.time.LocalDateTime;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 处理消息的handler
@@ -16,6 +18,8 @@ import java.time.LocalDateTime;
  * @date 2018/10/4 12:26
  */
 public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+
+    private DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     //用于记录和管理所有客户端的channel
     private static ChannelGroup clients= new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
@@ -30,7 +34,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
             channel.writeAndFlush(new TextWebSocketFrame("【服务器在 " + LocalDateTime.now())+"接收到消息】 , 消息为： " + content);
         }*/
         //下面这条语句和上面的for循环一样效果
-        clients.writeAndFlush(new TextWebSocketFrame("【服务器在 " + LocalDateTime.now()+"接收到消息】 , 消息为： " + content));
+        clients.writeAndFlush(new TextWebSocketFrame(dateFormat.format(new Date()) +"   "+ content));
     }
 
     /**
